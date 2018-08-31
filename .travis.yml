@@ -1,0 +1,25 @@
+sudo: required
+
+services:
+  - docker
+
+language: minimal
+
+addons:
+  apt:
+    packages:
+      - docker-ce
+      - binfmt-support
+      # - qemu-user-static
+
+before_install:
+  - echo "deb http://archive.ubuntu.com/ubuntu artful main universe" | sudo tee -a /etc/apt/sources.list
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -t artful qemu-user-static
+
+install: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
+jobs:
+  include:
+    - stage: "Build rootfs"
+      script: ./rootfs-build.sh

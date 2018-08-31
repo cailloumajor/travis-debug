@@ -1,0 +1,9 @@
+ARG version
+FROM debuerreotype/debuerreotype:${version}
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN set -eux \
+    && wget -O raspbian.deb 'https://archive.raspbian.org/raspbian/pool/main/r/raspbian-archive-keyring/raspbian-archive-keyring-udeb_20120528.2_all.udeb' \
+    && dpkg -i raspbian.deb \
+    && rm raspbian.deb
